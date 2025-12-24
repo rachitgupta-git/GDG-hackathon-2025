@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with StressBot - Academic Stress Support</title>
+    <meta name="description" content="Chat with StressBot, your AI academic stress support companion. Get instant help with study tips, stress management, and mental health support.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Stress<span>Bot</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="chat.html" class="active">Chat Bot</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+            <div class="menu-toggle">☰</div>
+        </div>
+    </nav>
+
+    <!-- Chat Section -->
+    <section class="chat-section" style="padding: 120px 0;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h1>🧠 Chat with StressBot</h1>
+                <p>Your personal academic stress support companion. Available 24/7 to listen and help.</p>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>🧠 StressBot</h2>
+                    <p>Your Academic Support Companion</p>
+                    <div class="language-selector">
+                        <label for="languageSelector">🌐 Language:</label>
+                        <select id="languageSelector">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="zh">中文</option>
+                            <option value="ja">日本語</option>
+                            <option value="ar">العربية</option>
+                            <option value="hi">हिन्दी</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be added here by JavaScript -->
+                </div>
+                <div class="typing" id="typing">StressBot is typing...</div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Type your message here...">
+                    <button id="sendButton">Send</button>
+                </div>
+                <div class="quick-actions">
+                    <button class="quick-btn" data-message="I'm feeling stressed">😰 Stressed</button>
+                    <button class="quick-btn" data-message="Help with studying">📚 Study Help</button>
+                    <button class="quick-btn" data-message="I need motivation">💪 Motivation</button>
+                    <button class="quick-btn" data-message="Tell me about resources">📖 Resources</button>
+                </div>
+            </div>
+
+            <!-- Floating Action Button -->
+            <button id="scrollToBottom" class="fab" style="display: none;">
+                ↓
+            </button>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <p style="color: #666; font-size: 0.9em; max-width: 600px; margin: 0 auto;">
+                    <strong>Remember:</strong> While StressBot can provide support and guidance, it's not a substitute for professional mental health care.
+                    If you're in crisis, please contact emergency services or a mental health professional immediately.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>StressBot</h3>
+                    <p>Your AI-powered companion for academic stress support. Available 24/7 to provide guidance, study tips, and emotional support.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="index.html">Home</a></p>
+                    <p><a href="resources.html">Helpful Resources</a></p>
+                    <p><a href="about.html">About Us</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Crisis Support</h3>
+                    <p><a href="https://988lifeline.org/" target="_blank">988 Suicide & Crisis Lifeline</a></p>
+                    <p><a href="https://www.crisistextline.org/" target="_blank">Crisis Text Line</a></p>
+                    <p><a href="mailto:support@stressbot.com">Contact Support</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 StressBot. Created to support student mental health and academic success. If you're in crisis, please seek immediate help.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>

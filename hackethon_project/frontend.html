@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=index.html">
+    <title>Redirecting to StressBot...</title>
+</head>
+<body>
+    <p>Redirecting to the full StressBot website... <a href="index.html">Click here if not redirected</a></p>
+</body>
+</html>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+        .chat-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in;
+        }
+        .message.bot {
+            background: #e3f2fd;
+            color: #1565c0;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        .message.user {
+            background: #4facfe;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        .input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+        .input-container input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .input-container input:focus {
+            border-color: #4facfe;
+        }
+        .input-container button {
+            padding: 12px 20px;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .input-container button:hover {
+            background: #00c4ff;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .typing {
+            display: none;
+            padding: 12px 16px;
+            background: #e3f2fd;
+            color: #1565c0;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .resources {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .resources a {
+            color: #1565c0;
+            text-decoration: none;
+        }
+        .resources a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 StressBot</h1>
+            <p>Your Academic Support Companion</p>
+        </div>
+        <div class="chat-container" id="chatContainer">
+            <div class="message bot">
+                Hi there! I'm StressBot, here to help you manage academic stress. How are you feeling today? You can tell me about your worries, ask for study tips, or just chat about what's on your mind.
+            </div>
+        </div>
+        <div class="typing" id="typing">StressBot is typing...</div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Type your message here..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const typing = document.getElementById('typing');
+
+        // Bot responses database
+        const responses = {
+            greetings: [
+                "Hello! I'm here to listen and help with your academic stress.",
+                "Hi! How can I support you today?",
+                "Hey there! Ready to talk about what's stressing you out?"
+            ],
+            stress: [
+                "I understand academic stress can be overwhelming. Remember to take deep breaths - try the 4-7-8 technique: inhale for 4 seconds, hold for 7, exhale for 8.",
+                "It's normal to feel stressed about academics. What specific aspect is bothering you most right now?",
+                "Academic pressure is real, but you're not alone. Many students go through this. What's one small thing we can work on together?"
+            ],
+            anxiety: [
+                "Anxiety about studies is common. Try grounding yourself: name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, 1 you can taste.",
+                "When anxiety hits, it can make studying harder. Have you tried breaking your work into smaller, manageable chunks?",
+                "I hear you. Anxiety can be tough. Remember that your worth isn't defined by your grades - you're doing your best."
+            ],
+            study_tips: [
+                "Try the Pomodoro technique: 25 minutes focused work, then 5-minute break. It really helps maintain concentration!",
+                "Active recall is powerful - test yourself on the material instead of just re-reading notes.",
+                "Make sure you're getting enough sleep (7-9 hours) and eating well. Your brain needs fuel to perform!",
+                "Find a study environment that works for you - some prefer complete silence, others like background music."
+            ],
+            motivation: [
+                "Remember why you started this journey. What excites you about your field of study?",
+                "Progress might feel slow, but every small step counts. Celebrate your wins, no matter how small!",
+                "It's okay to have off days. Be kind to yourself and try again tomorrow."
+            ],
+            time_management: [
+                "Time management is key! Try prioritizing tasks using the Eisenhower matrix: urgent/important, important/not urgent, etc.",
+                "Use a planner or digital calendar to schedule study time and breaks. Consistency beats intensity.",
+                "If you're procrastinating, start with just 5 minutes of work. Often, getting started is the hardest part."
+            ],
+            self_care: [
+                "Self-care is crucial for academic success. Make time for activities you enjoy outside of studying.",
+                "Exercise, even a 10-minute walk, can reduce stress and improve focus.",
+                "Stay connected with friends and family. Social support is important for mental health."
+            ],
+            resources: [
+                "Here are some helpful resources:",
+                "Consider talking to a counselor at your school - they're there to help!",
+                "Apps like Headspace or Calm can help with meditation and stress reduction.",
+                "Your school's academic advising center might have study skills workshops."
+            ],
+            default: [
+                "I'm here to listen. Can you tell me more about what's on your mind?",
+                "That sounds challenging. How are you feeling about it?",
+                "I want to understand better. What's been the hardest part for you?",
+                "Thanks for sharing that with me. What would help you feel better right now?"
+            ]
+        };
+
+        function showTyping() {
+            typing.style.display = 'block';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function hideTyping() {
+            typing.style.display = 'none';
+        }
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.textContent = message;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function getBotResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+
+            // Check for keywords and return appropriate responses
+            if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+                return responses.greetings[Math.floor(Math.random() * responses.greetings.length)];
+            }
+            if (message.includes('stress') || message.includes('overwhelm') || message.includes('pressure')) {
+                return responses.stress[Math.floor(Math.random() * responses.stress.length)];
+            }
+            if (message.includes('anxiety') || message.includes('worried') || message.includes('nervous')) {
+                return responses.anxiety[Math.floor(Math.random() * responses.anxiety.length)];
+            }
+            if (message.includes('study') || message.includes('learn') || message.includes('exam') || message.includes('test')) {
+                return responses.study_tips[Math.floor(Math.random() * responses.study_tips.length)];
+            }
+            if (message.includes('motivation') || message.includes('tired') || message.includes('lazy')) {
+                return responses.motivation[Math.floor(Math.random() * responses.motivation.length)];
+            }
+            if (message.includes('time') || message.includes('schedule') || message.includes('procrastinat')) {
+                return responses.time_management[Math.floor(Math.random() * responses.time_management.length)];
+            }
+            if (message.includes('care') || message.includes('break') || message.includes('rest')) {
+                return responses.self_care[Math.floor(Math.random() * responses.self_care.length)];
+            }
+            if (message.includes('help') || message.includes('resource') || message.includes('support')) {
+                const response = responses.resources[Math.floor(Math.random() * responses.resources.length)];
+                return response + "\n\nIf you're in crisis, please contact emergency services or a mental health professional immediately.";
+            }
+
+            return responses.default[Math.floor(Math.random() * responses.default.length)];
+        }
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            addMessage(message, true);
+            userInput.value = '';
+
+            showTyping();
+
+            setTimeout(() => {
+                hideTyping();
+                const response = getBotResponse(message);
+                addMessage(response);
+            }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Initial focus
+        userInput.focus();
+    </script>
+</body>
+</html>
